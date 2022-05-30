@@ -52,7 +52,7 @@ resource "azurerm_storage_container" "idevtfstatecont" {
 
 # create a resource group for the actual PoC IaC delpoyment stuff
 resource "azurerm_resource_group" "rg0" {
-  name     = "iDEV-IAC-Resource-Group"
+  name     = "iDEV-IaC-Resource-Group"
   location = "eastus"
   tags = {
     "Project Code"     = var.project_code
