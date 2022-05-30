@@ -16,10 +16,10 @@ provider "azurerm" {
 
 /****************************************************************/
 
-# create a resource group for the Terraform engine stuff
-resource "azurerm_resource_group" "rg" {
-  name     = "iDEV-TF-Resource-Group"
-  location = "eastus"
+# create a resource group for the Terraform stuff
+resource "azurerm_resource_group" "idev_rg_tf" {
+  name     = "iDEV-Resource-Group-TF"
+  location = var.location
   tags = {
     "Project Code"     = var.project_code
     "Budget Code"      = var.budget_code
@@ -28,10 +28,10 @@ resource "azurerm_resource_group" "rg" {
 }
 
 # create a BLOB storage account for persisting the Terraform state
-resource "azurerm_storage_account" "idevtfstgact" {
-  name                     = "idevtfstorageaccount"
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
+resource "azurerm_storage_account" "idev_stg_act_tf" {
+  name                     = "idevstorageaccounttf"
+  resource_group_name      = azurerm_resource_group.idev_rg_tf.name
+  location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
   tags = {
@@ -42,18 +42,18 @@ resource "azurerm_storage_account" "idevtfstgact" {
 }
 
 # create a container for persisting the Terraform state
-resource "azurerm_storage_container" "idevtfstatecont" {
-  name                  = "idevtfstatecontainer"
-  storage_account_name  = azurerm_storage_account.idevtfstgact.name
+resource "azurerm_storage_container" "idev_tf_state_cont" {
+  name                  = "idev-tf-state-container"
+  storage_account_name  = azurerm_storage_account.idev_stg_act_tf.name
   container_access_type = "private"
 }
 
 /****************************************************************/
 
 # create a resource group for the actual PoC IaC delpoyment stuff
-resource "azurerm_resource_group" "rg0" {
-  name     = "iDEV-IaC-Resource-Group"
-  location = "eastus"
+resource "azurerm_resource_group" "idev_rg" {
+  name     = var.resource_group
+  location = var.location
   tags = {
     "Project Code"     = var.project_code
     "Budget Code"      = var.budget_code
@@ -61,11 +61,11 @@ resource "azurerm_resource_group" "rg0" {
   }
 }
 
-# create a ADLS Gen2 storage account for the actual PoC IaC delpoyment stuff
-resource "azurerm_storage_account" "ideviacstgact" {
-  name                     = "ideviacstorageaccount"
-  resource_group_name      = azurerm_resource_group.rg0.name
-  location                 = azurerm_resource_group.rg0.location
+# create an ADLS Gen2 storage account for the actual PoC stuff
+resource "azurerm_storage_account" "idev_stg_act" {
+  name                     = "idevstorageaccount"
+  resource_group_name      = azurerm_resource_group.idev_rg.name
+  location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
   account_kind             = "StorageV2"
@@ -75,4 +75,38 @@ resource "azurerm_storage_account" "ideviacstgact" {
     "Budget Code"      = var.budget_code
     "Cost Center Code" = var.cost_center_code
   }
+}
+
+# create an Event Hubs Namesapce for the actual PoC stuff
+resource "azurerm_eventhub_namespace" "idev_eh_nmsp" {
+  name                = "iDEV-Event-Hubs-Namespace"
+  resource_group_name = azurerm_resource_group.idev_rg.name
+  location            = var.location
+  sku                 = "Basic"
+  capacity            = 1
+  tags = {
+    "Project Code"     = var.project_code
+    "Budget Code"      = var.budget_code
+    "Cost Center Code" = var.cost_center_code
+  }
+}
+
+# create an Event Hub for the actual PoC stuff
+resource "azurerm_eventhub" "idev_eh" {
+  name                = "iDEV-Event-Hub"
+  namespace_name      = azurerm_eventhub_namespace.idev_eh_nmsp.name
+  resource_group_name = azurerm_resource_group.idev_rg.name
+  partition_count     = 1
+  message_retention   = 1
+}
+
+# create an Event Hub Authorization Rule for the actual PoC stuff
+resource "azurerm_eventhub_authorization_rule" "idev_eh_auth_rule" {
+  name                = "iDEV-Event-Hub-Authorization-Rule"
+  namespace_name      = azurerm_eventhub_namespace.idev_eh_nmsp.name
+  eventhub_name       = azurerm_eventhub.idev_eh.name
+  resource_group_name = azurerm_resource_group.idev_rg.name
+  listen              = true
+  send                = true
+  manage              = true
 }

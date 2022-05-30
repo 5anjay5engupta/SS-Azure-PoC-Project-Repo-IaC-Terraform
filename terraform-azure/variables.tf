@@ -1,5 +1,5 @@
 variable "resource_group" {
-  default = "SS-Azure-PoC-Resource-Group"
+  default = "iDEV-Resource-Group"
 }
 
 variable "location" {
