@@ -82,7 +82,7 @@ resource "azurerm_eventhub_namespace" "idev_eh_nmsp" {
   name                = "iDEV-Event-Hubs-Namespace"
   resource_group_name = azurerm_resource_group.idev_rg.name
   location            = var.location
-  sku                 = "Basic"
+  sku                 = "Standard"
   capacity            = 1
   tags = {
     "Project Code"     = var.project_code
