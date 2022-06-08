@@ -1,3 +1,8 @@
+/********************************************************************************/
+#       Author : Sanjay Sengupta - Enterprise Cloud & Big Data Analytics Architect
+# Last Updated : June 8, 2022
+/********************************************************************************/
+
 # configure the Azure provider
 terraform {
   required_providers {

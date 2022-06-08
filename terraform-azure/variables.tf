@@ -1,3 +1,8 @@
+/********************************************************************************/
+#       Author : Sanjay Sengupta - Enterprise Cloud & Big Data Analytics Architect
+# Last Updated : June 8, 2022
+/********************************************************************************/
+
 variable "resource_group" {
   default = "iDEV-Resource-Group"
 }
