@@ -19,41 +19,41 @@ provider "azurerm" {
   features {}
 }
 
-/****************************************************************/
+/************************************************/
 
 # create a resource group for the Terraform stuff
-resource "azurerm_resource_group" "idev_rg_tf" {
-  name     = "iDEV-Resource-Group-TF"
-  location = var.location
-  tags = {
-    "Project Code"     = var.project_code
-    "Budget Code"      = var.budget_code
-    "Cost Center Code" = var.cost_center_code
-  }
-}
+# resource "azurerm_resource_group" "idev_rg_tf" {
+#   name     = "iDEV-Resource-Group-TF"
+#   location = var.location
+#   tags = {
+#     "Project Code"     = var.project_code
+#     "Budget Code"      = var.budget_code
+#     "Cost Center Code" = var.cost_center_code
+#   }
+# }
 
 # create a BLOB storage account for persisting the Terraform state
-resource "azurerm_storage_account" "idev_stg_act_tf" {
-  name                     = "idevstorageaccounttf"
-  resource_group_name      = azurerm_resource_group.idev_rg_tf.name
-  location                 = var.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  tags = {
-    "Project Code"     = var.project_code
-    "Budget Code"      = var.budget_code
-    "Cost Center Code" = var.cost_center_code
-  }
-}
+# resource "azurerm_storage_account" "idev_stg_act_tf" {
+#   name                     = "idevstorageaccounttf"
+#   resource_group_name      = azurerm_resource_group.idev_rg_tf.name
+#   location                 = var.location
+#   account_tier             = "Standard"
+#   account_replication_type = "LRS"
+#   tags = {
+#     "Project Code"     = var.project_code
+#     "Budget Code"      = var.budget_code
+#     "Cost Center Code" = var.cost_center_code
+#   }
+# }
 
 # create a container for persisting the Terraform state
-resource "azurerm_storage_container" "idev_tf_state_cont" {
-  name                  = "idev-tf-state-container"
-  storage_account_name  = azurerm_storage_account.idev_stg_act_tf.name
-  container_access_type = "private"
-}
+# resource "azurerm_storage_container" "idev_tf_state_cont" {
+#   name                  = "idev-tf-state-container"
+#   storage_account_name  = azurerm_storage_account.idev_stg_act_tf.name
+#   container_access_type = "private"
+# }
 
-/****************************************************************/
+/***************************************************************/
 
 # create a resource group for the actual PoC IaC delpoyment stuff
 resource "azurerm_resource_group" "idev_rg" {

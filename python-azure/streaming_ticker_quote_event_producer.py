@@ -1,3 +1,8 @@
+#********************************************************************************#
+#       Author : Sanjay Sengupta - Enterprise Cloud & Big Data Analytics Architect
+# Last Updated : June 8, 2022
+#********************************************************************************#
+
 from yahoo_fin import stock_info as si
 import asyncio
 from azure.eventhub.aio import EventHubProducerClient
