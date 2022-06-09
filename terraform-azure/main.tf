@@ -12,7 +12,7 @@ terraform {
     }
   }
   required_version = ">= 1.1.0"
-  backend "azure" {} # required for persisting state to a remote location in Azure
+  backend "azure" {} # required for persisting state to a remote location (Azure)
 }
 
 # set up the Azure provider
