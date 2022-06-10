@@ -68,20 +68,20 @@ resource "azurerm_resource_group" "idev_rg" {
 }
 
 # create an ADLS Gen2 storage account for the actual PoC stuff
-# resource "azurerm_storage_account" "idev_stg_act" {
-#   name                     = "idevstorageaccount"
-#   resource_group_name      = azurerm_resource_group.idev_rg.name
-#   location                 = var.location
-#   account_tier             = "Standard"
-#   account_replication_type = "LRS"
-#   account_kind             = "StorageV2"
-#   is_hns_enabled           = "true"
-#   tags = {
-#     "Project Code"     = var.project_code
-#     "Budget Code"      = var.budget_code
-#     "Cost Center Code" = var.cost_center_code
-#   }
-# }
+resource "azurerm_storage_account" "idev_stg_act" {
+  name                     = "idevstorageaccount"
+  resource_group_name      = azurerm_resource_group.idev_rg.name
+  location                 = var.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  account_kind             = "StorageV2"
+  is_hns_enabled           = "true"
+  tags = {
+    "Project Code"     = var.project_code
+    "Budget Code"      = var.budget_code
+    "Cost Center Code" = var.cost_center_code
+  }
+}
 
 # create an Event Hubs Namesapce for the actual PoC stuff
 resource "azurerm_eventhub_namespace" "idev_eh_nmsp" {
