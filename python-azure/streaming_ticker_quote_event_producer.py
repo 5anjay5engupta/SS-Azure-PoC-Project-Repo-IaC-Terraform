@@ -18,7 +18,7 @@ def get_ticker_quote(ticker):
 # get_ticker_quote(ticker)
 
 ### ticker quote event producer function ###
-connection_str = 'Endpoint=sb://idev-event-hubs-namespace.servicebus.windows.net/;SharedAccessKeyName=iDEV-Event-Hub-Authorization-Rule;SharedAccessKey=GV5aBvQQo9zt16LbPNVt0coTMxm379M9Cf3YEPMXg6Q=;EntityPath=idev-event-hub'
+connection_str = 'Endpoint=sb://idev-event-hubs-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=8FXwwnZoKJgFpc2sH9O1Lwj19qpyl23LryyPhkiinyY='
 event_hub_path = 'idev-event-hub'
 async def stream_ticker_quote():
     # Create a producer client to send messages to the event hub.
@@ -30,9 +30,9 @@ async def stream_ticker_quote():
         event_data_batch = await producer.create_batch()
 
         # Add events to the batch.
-        event_data_batch.add(EventData(get_ticker_quote(ticker = 'tsla')))
+        event_data_batch.add(EventData(get_ticker_quote(ticker = 'aapl')))
         event_data_batch.add(EventData(get_ticker_quote(ticker = 'amzn')))
-        event_data_batch.add(EventData(get_ticker_quote(ticker = 'googl')))
+        event_data_batch.add(EventData(get_ticker_quote(ticker = 'shop')))
  
         # Send the batch of events to the event hub.
         await producer.send_batch(event_data_batch)
