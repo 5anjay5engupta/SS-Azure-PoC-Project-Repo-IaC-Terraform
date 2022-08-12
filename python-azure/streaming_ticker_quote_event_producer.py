@@ -18,7 +18,7 @@ def get_ticker_quote(ticker):
 # get_ticker_quote(ticker)
 
 ### ticker quote event producer function ###
-connection_str = 'Endpoint=sb://idev-event-hubs-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=8FXwwnZoKJgFpc2sH9O1Lwj19qpyl23LryyPhkiinyY='
+connection_str = 'Endpoint=sb://idev-event-hubs-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=d6Jyhd9KuDrB+MkH9IjsVTW2li+0FBoqicuSwStWtMM='
 event_hub_path = 'idev-event-hub'
 async def stream_ticker_quote():
     # Create a producer client to send messages to the event hub.
