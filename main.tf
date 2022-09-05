@@ -1,6 +1,6 @@
 /********************************************************************************/
 #       Author : Sanjay Sengupta - Enterprise Cloud & Big Data Analytics Architect
-# Last Updated : Aug 26, 2022
+# Last Updated : Sep 5, 2022
 /********************************************************************************/
 
 # configure the Azure provider
@@ -115,4 +115,18 @@ resource "azurerm_eventhub_authorization_rule" "idev_eh_auth_rule" {
   listen              = true
   send                = true
   manage              = true
+}
+
+# create a data factory for the actual PoC stuff
+resource "azurerm_data_factory" "idev_adf_v2" {
+  name                = "iDEV-ADF-V2"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.idev_rg.name
+}
+
+# create a data factory linked service for the actual PoC stuff
+resource "azurerm_data_factory_linked_service_azure_blob_storage" "idev_adf_v2_ls_adls_gen2" {
+  name              = "iDEV-ADF-V2-LS-ADLS-Gen2"
+  data_factory_id   = azurerm_data_factory.idev_adf_v2.id
+  connection_string = data.azurerm_storage_account.idev_stg_act.primary_connection_string
 }

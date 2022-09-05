@@ -1,6 +1,6 @@
 /********************************************************************************/
 #       Author : Sanjay Sengupta - Enterprise Cloud & Big Data Analytics Architect
-# Last Updated : June 8, 2022
+# Last Updated : Sep 5, 2022
 /********************************************************************************/
 
 variable "resource_group" {
