@@ -117,28 +117,16 @@ resource "azurerm_eventhub_authorization_rule" "idev_eh_auth_rule" {
   manage              = true
 }
 
-/* # create a data factory for the actual PoC stuff
-resource "azurerm_data_factory" "idev_adf_v2" {
-  name                = "iDEV-ADF-V2"
-  location            = var.location
-  resource_group_name = azurerm_resource_group.idev_rg.name
-}
-
-# create a data factory linked service for the actual PoC stuff
-resource "azurerm_data_factory_linked_service_azure_blob_storage" "idev_adf_v2_ls_adls_gen2" {
-  name              = "iDEV-ADF-V2-LS-ADLS-Gen2"
-  data_factory_id   = azurerm_data_factory.idev_adf_v2.id
-  connection_string = data.azurerm_storage_account.idev_stg_act.primary_connection_string
-} */
-
+# create a data factory for the actual PoC stuff
 resource "azurerm_data_factory" "idev_adf_v2_wksp" {
   name                = "iDEV-ADF-V2-Workspace"
   location            = var.location
   resource_group_name = azurerm_resource_group.idev_rg.name
 }
 
-/* resource "azurerm_data_factory_linked_service_azure_blob_storage" "adfexamplels123" {
-  name              = "adfexamplels123"
-  data_factory_id   = azurerm_data_factory.adfexample123.id
-  connection_string = data.azurerm_storage_account.adlsexample123.primary_connection_string
-} */
+# create a data factory linked service to a blob store for the actual PoC stuff
+resource "azurerm_data_factory_linked_service_azure_blob_storage" "idev_adf_v2_ls_blob" {
+  name              = "iDEV-ADF-V2-Linked-Service-BLOB"
+  data_factory_id   = azurerm_data_factory.idev_adf_v2_wksp.id
+  connection_string = data.azurerm_storage_account.idevstorageaccount.primary_connection_string
+}
