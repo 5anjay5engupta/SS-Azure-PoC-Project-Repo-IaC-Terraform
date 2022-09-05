@@ -120,15 +120,15 @@ resource "azurerm_eventhub_authorization_rule" "idev_eh_auth_rule" {
 # create a data factory for the actual PoC stuff
 resource "azurerm_data_factory" "idev_adf_v2_wksp" {
   name                = "iDEV-ADF-V2-Workspace"
-  location            = var.location
   resource_group_name = azurerm_resource_group.idev_rg.name
+  location            = var.location
 }
 
 # create an user assigned managed identity for adf v2 access to adls gen2
 resource "azurerm_user_assigned_identity" "idev_adf_v2_adls_gen2_uami" {
   name = "iDEV-ADF-V2-ADLS-Gen2-User-Assigned-Managed-Identity"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.idev_rg.name
+  location            = var.location
 }
 
 # create a data factory linked service to a adls gen2 store for the actual PoC stuff
