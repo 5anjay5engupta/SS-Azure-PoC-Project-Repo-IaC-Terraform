@@ -139,5 +139,6 @@ resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "idev_adf_
   name                  = "iDEV-ADF-V2-Linked-Service-ADLS_Gen2"
   data_factory_id       = azurerm_data_factory.idev_adf_v2_wksp.id
   use_managed_identity  = data.azurerm_user_assigned_identity.current.name
+  resource_group_name   = azurerm_resource_group.idev_rg.name
   url                   = "https://idevstorageaccount.dfs.core.windows.net"
 }
