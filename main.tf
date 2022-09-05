@@ -141,5 +141,5 @@ resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "idev_adf_
   service_principal_id  = data.azurerm_client_config.current.client_id
   service_principal_key = data.azurerm_client_config.current.id
   tenant                = data.azurerm_client_config.current.tenant_id
-  url                   = "https://idevstorageaccount"
+  url                   = "https://idevstorageaccount.dfs.core.windows.net"
 }
