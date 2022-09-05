@@ -139,7 +139,7 @@ resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "idev_adf_
   name                  = "iDEV-ADF-V2-Linked-Service-ADLS_Gen2"
   data_factory_id       = azurerm_data_factory.idev_adf_v2_wksp.id
   service_principal_id  = data.azurerm_client_config.current.client_id
-  # service_principal_key = "exampleKey"
-  # tenant                = "11111111-1111-1111-1111-111111111111"
+  service_principal_key = data.azurerm_client_config.current.id
+  tenant                = data.azurerm_client_config.current.tenant_id
   url                   = "https://idevstorageaccount"
 }
