@@ -138,8 +138,6 @@ data "azurerm_user_assigned_identity" "current" {
 resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "idev_adf_v2_ls_adls_gen2" {
   name                  = "iDEV-ADF-V2-Linked-Service-ADLS_Gen2"
   data_factory_id       = azurerm_data_factory.idev_adf_v2_wksp.id
-  service_principal_id  = data.azurerm_user_assigned_identity.current.principal_id
-  # service_principal_key = data.azurerm_user_assigned_identity.current.
-  tenant                = data.azurerm_user_assigned_identity.current.tenant_id
+  use_managed_identity  = idev_adf_v2_adls_gen2_uami.name
   url                   = "https://idevstorageaccount.dfs.core.windows.net"
 }
