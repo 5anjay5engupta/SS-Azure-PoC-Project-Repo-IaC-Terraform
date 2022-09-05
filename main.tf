@@ -12,7 +12,7 @@ terraform {
     }
   }
   required_version = ">= 1.1.0"
-  backend "azurerm" {} # required for persisting state to a remote location (Azure)
+  backend "azurerm" {} # required for persisting the Terraform state file to a remote location i.e., Azure in this case
 }
 
 # set up the Azure provider
@@ -22,7 +22,7 @@ provider "azurerm" {
 
 /************************************************/
 
-# create a resource group for the Terraform stuff
+# create a dedicated Resource Group for Terraform
 # resource "azurerm_resource_group" "idev_rg_tf" {
 #   name     = "iDEV-Resource-Group-TF"
 #   location = var.location
@@ -33,7 +33,7 @@ provider "azurerm" {
 #   }
 # }
 
-# create a BLOB storage account for persisting the Terraform state
+# create a dedicated BLOB Storage Account for persisting the Terraform state file
 # resource "azurerm_storage_account" "idev_stg_act_tf" {
 #   name                     = "idevstorageaccounttf"
 #   resource_group_name      = azurerm_resource_group.idev_rg_tf.name
@@ -47,7 +47,7 @@ provider "azurerm" {
 #   }
 # }
 
-# create a container for persisting the Terraform state
+# create a dedicated BLOB Storage Account Container for persisting the Terraform state file
 # resource "azurerm_storage_container" "idev_tf_state_cont" {
 #   name                  = "idev-tf-state-container"
 #   storage_account_name  = azurerm_storage_account.idev_stg_act_tf.name
@@ -56,7 +56,7 @@ provider "azurerm" {
 
 /***************************************************************/
 
-# create a resource group for the actual PoC IaC delpoyment stuff
+# create a Resource Group for the actual PoC IaC delpoyment
 resource "azurerm_resource_group" "idev_rg" {
   name     = var.resource_group
   location = var.location
@@ -67,7 +67,7 @@ resource "azurerm_resource_group" "idev_rg" {
   }
 }
 
-# create an ADLS Gen2 storage account for the actual PoC stuff
+# create an ADLS Gen2 storage account for the actual PoC
 resource "azurerm_storage_account" "idev_stg_act" {
   name                     = "idevstorageaccount"
   resource_group_name      = azurerm_resource_group.idev_rg.name
@@ -83,7 +83,7 @@ resource "azurerm_storage_account" "idev_stg_act" {
   }
 }
 
-# create an Event Hubs Namesapce for the actual PoC stuff
+# create an Event Hubs Namesapce for the actual PoC
 resource "azurerm_eventhub_namespace" "idev_eh_nmsp" {
   name                = "iDEV-Event-Hubs-Namespace"
   resource_group_name = azurerm_resource_group.idev_rg.name
@@ -97,7 +97,7 @@ resource "azurerm_eventhub_namespace" "idev_eh_nmsp" {
   }
 }
 
-# create an Event Hub for the actual PoC stuff
+# create an Event Hub for the actual PoC
 resource "azurerm_eventhub" "idev_eh" {
   name                = "iDEV-Event-Hub"
   namespace_name      = azurerm_eventhub_namespace.idev_eh_nmsp.name
@@ -106,7 +106,7 @@ resource "azurerm_eventhub" "idev_eh" {
   message_retention   = 1
 }
 
-# create an Event Hub Authorization Rule for the actual PoC stuff
+# create an Event Hub Authorization Rule for the actual PoC
 resource "azurerm_eventhub_authorization_rule" "idev_eh_auth_rule" {
   name                = "iDEV-Event-Hub-Authorization-Rule"
   namespace_name      = azurerm_eventhub_namespace.idev_eh_nmsp.name
@@ -117,28 +117,16 @@ resource "azurerm_eventhub_authorization_rule" "idev_eh_auth_rule" {
   manage              = true
 }
 
-# create a data factory for the actual PoC stuff
+# create an ADF V2 for the actual PoC
 resource "azurerm_data_factory" "idev_adf_v2_wksp" {
   name                = "iDEV-ADF-V2-Workspace"
   resource_group_name = azurerm_resource_group.idev_rg.name
   location            = var.location
 }
 
-# create an user assigned managed identity for adf v2 access to adls gen2
+# create an User Assigned Managed Identity for ADF V2 access to ADLS Gen2 for the actual PoC
 resource "azurerm_user_assigned_identity" "idev_adf_v2_adls_gen2_uami" {
   name = "iDEV-ADF-V2-ADLS-Gen2-User-Assigned-Managed-Identity"
   resource_group_name = azurerm_resource_group.idev_rg.name
   location            = var.location
-}
-
-# create a data factory linked service to a adls gen2 store for the actual PoC stuff
-data "azurerm_user_assigned_identity" "current" {
-}
-
-resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "idev_adf_v2_ls_adls_gen2" {
-  name                  = "iDEV-ADF-V2-Linked-Service-ADLS_Gen2"
-  data_factory_id       = azurerm_data_factory.idev_adf_v2_wksp.id
-  use_managed_identity  = data.azurerm_user_assigned_identity.current.name
-  resource_group_name   = azurerm_resource_group.idev_rg.name
-  url                   = "https://idevstorageaccount.dfs.core.windows.net"
 }
