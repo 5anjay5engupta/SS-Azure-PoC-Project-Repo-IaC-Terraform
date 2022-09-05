@@ -131,19 +131,14 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "idev_adf_v2_l
   connection_string = data.azurerm_storage_account.idev_stg_act.primary_connection_string
 } */
 
-data "azurerm_storage_account" "adlsexample123" {
-  name                = "storageaccountname123"
+resource "azurerm_data_factory" "idev_adf_v2_wksp" {
+  name                = "iDEV-ADF-V2-Workspace"
+  location            = var.location
   resource_group_name = azurerm_resource_group.idev_rg.name
 }
 
-resource "azurerm_data_factory" "adfexample123" {
-  name                = "adfexample123"
-  location            = azurerm_resource_group.idev_rg.location
-  resource_group_name = azurerm_resource_group.idev_rg.name
-}
-
-resource "azurerm_data_factory_linked_service_azure_blob_storage" "adfexamplels123" {
+/* resource "azurerm_data_factory_linked_service_azure_blob_storage" "adfexamplels123" {
   name              = "adfexamplels123"
   data_factory_id   = azurerm_data_factory.adfexample123.id
   connection_string = data.azurerm_storage_account.adlsexample123.primary_connection_string
-}
+} */
