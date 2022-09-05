@@ -124,9 +124,15 @@ resource "azurerm_data_factory" "idev_adf_v2_wksp" {
   resource_group_name = azurerm_resource_group.idev_rg.name
 }
 
-# create a data factory linked service to a blob store for the actual PoC stuff
-resource "azurerm_data_factory_linked_service_azure_blob_storage" "idev_adf_v2_ls_blob" {
-  name              = "iDEV-ADF-V2-Linked-Service-BLOB"
-  data_factory_id   = azurerm_data_factory.idev_adf_v2_wksp.id
-  connection_string = data.azurerm_storage_account.idevstorageaccount.primary_connection_string
+# create a data factory linked service to a adls gen2 store for the actual PoC stuff
+data "azurerm_client_config" "current" {
+}
+
+resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "idev_adf_v2_ls_adls_gen2" {
+  name                  = "iDEV-ADF-V2-Linked-Service-ADLS_Gen2"
+  data_factory_id       = azurerm_data_factory.idev_adf_v2_wksp.id
+  # service_principal_id  = data.azurerm_client_config.current.client_id
+  # service_principal_key = "exampleKey"
+  # tenant                = "11111111-1111-1111-1111-111111111111"
+  url                   = "https://idevstorageaccount"
 }
