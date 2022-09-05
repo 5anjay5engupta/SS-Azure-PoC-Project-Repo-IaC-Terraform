@@ -124,14 +124,18 @@ resource "azurerm_data_factory" "idev_adf_v2_wksp" {
   resource_group_name = azurerm_resource_group.idev_rg.name
 }
 
-# create a data factory linked service to a adls gen2 store for the actual PoC stuff
-data "azurerm_client_config" "current" {
+# create an user assigned managed identity for adf v2 access to adls gen2
+resource "azurerm_user_assigned_identity" "idev_adf_v2_adls_gen2_uami" {
+  name = "iDEV-ADF-V2-ADLS-Gen2-User-Assigned-Managed-Identity"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.example.location
 }
 
+# create a data factory linked service to a adls gen2 store for the actual PoC stuff
 resource "azurerm_data_factory_linked_service_data_lake_storage_gen2" "idev_adf_v2_ls_adls_gen2" {
   name                  = "iDEV-ADF-V2-Linked-Service-ADLS_Gen2"
   data_factory_id       = azurerm_data_factory.idev_adf_v2_wksp.id
-  service_principal_id  = data.azurerm_client_config.current.client_id
+  service_principal_id  = idev_adf_v2_adls_gen2_uami.id
   # service_principal_key = "exampleKey"
   # tenant                = "11111111-1111-1111-1111-111111111111"
   url                   = "https://idevstorageaccount"
