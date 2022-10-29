@@ -126,9 +126,9 @@ resource "azurerm_data_factory" "idev_adf_v2_wksp" {
 }
 
 resource "azurerm_data_factory_integration_runtime_azure" "idev_adf_v2_wksp_auto_resolve_irt" {
-  # name            = "AutoResolveIntegrationRuntime"
+  name            = "AutoResolveIntegrationRuntimePvt"
   data_factory_id = azurerm_data_factory.idev_adf_v2_wksp.id
-  location        = AutoResolve
+  location        = var.location
   virtual_network_enabled = true
 }
 
