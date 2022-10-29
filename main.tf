@@ -125,6 +125,13 @@ resource "azurerm_data_factory" "idev_adf_v2_wksp" {
   managed_virtual_network_enabled = true
 }
 
+resource "azurerm_data_factory_integration_runtime_azure" "idev_adf_v2_wksp_auto_resolve_irt" {
+  name            = "AutoResolveIntegrationRuntime"
+  data_factory_id = azurerm_data_factory.idev_adf_v2_wksp
+  location        = AutoResolve
+  virtual_network_enabled = true
+}
+
 # create an User Assigned Managed Identity for ADF V2 access to ADLS Gen2 for the actual PoC
 resource "azurerm_user_assigned_identity" "idev_adf_v2_adls_gen2_uami" {
   name = "iDEV-ADF-V2-ADLS-Gen2-User-Assigned-Managed-Identity"
