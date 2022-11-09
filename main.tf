@@ -125,7 +125,15 @@ resource "azurerm_data_factory" "idev_adf_v2_wksp" {
   managed_virtual_network_enabled = true
 }
 
+# default IRT
 resource "azurerm_data_factory_integration_runtime_azure" "idev_adf_v2_wksp_auto_resolve_irt" {
+  name            = "AutoResolveIntegrationRuntime"
+  data_factory_id = azurerm_data_factory.idev_adf_v2_wksp.id
+  location        = var.location
+}
+
+# custom IRT within Managed Virtual Network
+resource "azurerm_data_factory_integration_runtime_azure" "idev_adf_v2_wksp_auto_resolve_irt_pvt" {
   name            = "AutoResolveIntegrationRuntimePvt"
   data_factory_id = azurerm_data_factory.idev_adf_v2_wksp.id
   location        = var.location
