@@ -117,6 +117,7 @@ resource "azurerm_eventhub_authorization_rule" "idev_eh_auth_rule" {
   manage              = true
 }
 
+/*
 # create an ADF V2 for the actual PoC
 resource "azurerm_data_factory" "idev_adf_v2_wksp" {
   name                = "iDEV-ADF-V2-Workspace"
@@ -146,3 +147,4 @@ resource "azurerm_user_assigned_identity" "idev_adf_v2_adls_gen2_uami" {
   resource_group_name = azurerm_resource_group.idev_rg.name
   location            = var.location
 }
+*/
