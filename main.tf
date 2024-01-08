@@ -1,6 +1,6 @@
 /********************************************************************************/
 #       Author : Sanjay Sengupta - Enterprise Cloud & Big Data Analytics Architect
-# Last Updated : Nov 9, 2022
+# Last Updated : Jan 8, 2024
 /********************************************************************************/
 
 # configure the Azure provider
